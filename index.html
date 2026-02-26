@@ -66,30 +66,31 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const email = document.getElementById("regEmail").value;
     const senha = document.getElementById("regSenha").value;
 
-    const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            tipo: "registro",
-            nome: nome,
-            email: email,
-            senha: senha
-        })
-    });
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+                tipo: "registro",
+                nome: nome,
+                email: email,
+                senha: senha
+            })
+        });
 
-    const data = await response.json();
+        const text = await response.text();
 
-    if (data.status === "ok") {
-        alert("Conta criada com sucesso!");
-        document.getElementById("registerForm").reset();
-    } 
-    else if (data.status === "email_existe") {
-        alert("Este email já está cadastrado.");
-    } 
-    else {
-        alert("Erro ao criar conta.");
+        if (text === "ok") {
+            alert("Conta criada com sucesso!");
+            document.getElementById("registerForm").reset();
+        } else if (text === "email_existe") {
+            alert("Este email já está cadastrado.");
+        } else {
+            alert("Erro ao criar conta.");
+        }
+
+    } catch (error) {
+        alert("Erro de conexão.");
+        console.error(error);
     }
 });
 
@@ -102,28 +103,33 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     const email = document.getElementById("loginEmail").value;
     const senha = document.getElementById("loginSenha").value;
 
-    const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            tipo: "login",
-            email: email,
-            senha: senha
-        })
-    });
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+                tipo: "login",
+                email: email,
+                senha: senha
+            })
+        });
 
-    const data = await response.json();
+        const text = await response.text();
 
-    if (data.status === "ok") {
-        localStorage.setItem("usuario", data.nome);
-        window.location.href = "postagens.html";
-    } else {
-        alert("Email ou senha incorretos.");
+        if (text.startsWith("ok|")) {
+            const nome = text.split("|")[1];
+            localStorage.setItem("usuario", nome);
+            window.location.href = "postagens.html";
+        } else {
+            alert("Email ou senha incorretos.");
+        }
+
+    } catch (error) {
+        alert("Erro de conexão.");
+        console.error(error);
     }
 });
 </script>
 
 </body>
+
 </html>
