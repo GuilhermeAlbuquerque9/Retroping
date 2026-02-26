@@ -2,9 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retroping™</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
@@ -24,25 +26,28 @@
         <!-- LOGIN -->
         <div class="sidebar">
             <h3>Entrar</h3>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginSenha" placeholder="Senha" required>
+            <form action="https://script.google.com/macros/s/AKfycbyYRHTdUBWp5sR_pSq7pN4gjiXj6h8sWs97Uf3_flWb_qhzpscbQX9-BeRe0U9bJXBSqw/exec" method="POST">
+                <input type="hidden" name="tipo" value="login">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="senha" placeholder="Senha" required>
                 <button type="submit">Entrar</button>
             </form>
 
             <h3>Criar Conta</h3>
-            <form id="registerForm">
-                <input type="text" id="regNome" placeholder="Nome" required>
-                <input type="email" id="regEmail" placeholder="Email" required>
-                <input type="password" id="regSenha" placeholder="Senha" required>
+            <form action="https://script.google.com/macros/s/AKfycbyYRHTdUBWp5sR_pSq7pN4gjiXj6h8sWs97Uf3_flWb_qhzpscbQX9-BeRe0U9bJXBSqw/exec" method="POST">
+                <input type="hidden" name="tipo" value="registro">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="senha" placeholder="Senha" required>
                 <button type="submit">Criar Conta</button>
             </form>
         </div>
 
         <div class="content">
             <h2>Bem-vindo ao Retroping™</h2>
-            <p>Sem algoritmo infinito. Feed cronológico real.</p>
-            <p>Privacidade máxima. Simplicidade total.</p>
+            <p>🌎 Acesso Global</p>
+            <p>📵 Sem algoritmo infinito</p>
+            <p>🔒 Privacidade total. Sem coleta de dados.</p>
         </div>
 
     </div>
@@ -53,84 +58,5 @@
 
 </div>
 
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYRHTdUBWp5sR_pSq7pN4gjiXj6h8sWs97Uf3_flWb_qhzpscbQX9-BeRe0U9bJXBSqw/exec";
-
-/* =========================
-   REGISTRO
-========================= */
-document.getElementById("registerForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const nome = document.getElementById("regNome").value;
-    const email = document.getElementById("regEmail").value;
-    const senha = document.getElementById("regSenha").value;
-
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: new URLSearchParams({
-                tipo: "registro",
-                nome: nome,
-                email: email,
-                senha: senha
-            })
-        });
-
-        const text = await response.text();
-
-        if (text === "ok") {
-            alert("Conta criada com sucesso!");
-            document.getElementById("registerForm").reset();
-        } else if (text === "email_existe") {
-            alert("Este email já está cadastrado.");
-        } else {
-            alert("Erro ao criar conta.");
-        }
-
-    } catch (error) {
-        alert("Erro de conexão.");
-        console.error(error);
-    }
-});
-
-/* =========================
-   LOGIN
-========================= */
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const email = document.getElementById("loginEmail").value;
-    const senha = document.getElementById("loginSenha").value;
-
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: new URLSearchParams({
-                tipo: "login",
-                email: email,
-                senha: senha
-            })
-        });
-
-        const text = await response.text();
-
-        if (text.startsWith("ok|")) {
-            const nome = text.split("|")[1];
-            localStorage.setItem("usuario", nome);
-            window.location.href = "postagens.html";
-        } else {
-            alert("Email ou senha incorretos.");
-        }
-
-    } catch (error) {
-        alert("Erro de conexão.");
-        console.error(error);
-    }
-});
-</script>
-
 </body>
-
 </html>
-
