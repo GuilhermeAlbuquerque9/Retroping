@@ -1,0 +1,74 @@
+body {
+    background-color: #d6eaff;
+    font-family: Tahoma, Verdana;
+    margin: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: auto;
+    background: white;
+    border: 3px solid #0033cc;
+}
+
+.header {
+    background: #0033cc;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main-layout {
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background: #eaf3ff;
+    padding: 15px;
+    border-right: 2px solid #0033cc;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+input, textarea, select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 6px;
+    border: 1px solid #0033cc;
+}
+
+button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.profile-box {
+    text-align: center;
+}
+
+.avatar {
+    width: 120px;
+    border-radius: 10px;
+}
+
+.footer {
+    background: #0033cc;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}

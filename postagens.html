@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mensagem - Retroping™</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+    <div class="logo">💻 Retroping™</div>
+    <div class="menu">
+        <a href="index.html">Início</a>
+        <a href="perfil.html">Perfil</a>
+        <a href="config.html">Config</a>
+    </div>
+</div>
+
+<div class="main-layout">
+
+<div class="content">
+
+<h2>Nova Mensagem</h2>
+
+<form id="postForm">
+    <input type="text" id="nome" placeholder="Seu Nome" required>
+    <textarea id="mensagem" placeholder="Escreva sua mensagem..." required></textarea>
+    <button type="submit">Publicar</button>
+</form>
+
+<h2>Mensagens Recentes</h2>
+<div id="feed"></div>
+
+</div>
+
+</div>
+
+<div class="footer">
+© Retropixel™, 2025-2026. Todos os direitos reservados.
+</div>
+
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxdSSQw759d6grvHGATmEOupCeTRka6AUWWuF6mXpNmsJnQBTOri28skK8jvyXlqqJStg/exec";
+
+async function carregarMensagens() {
+    const res = await fetch(SCRIPT_URL);
+    const data = await res.json();
+    const feed = document.getElementById("feed");
+    feed.innerHTML = "";
+
+    data.forEach(post => {
+        feed.innerHTML += `
+            <div class="post">
+                <h3>${post.nome}</h3>
+                <p>${post.mensagem}</p>
+                <small>${new Date(post.data).toLocaleString()}</small>
+            </div>
+        `;
+    });
+}
+
+document.getElementById("postForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const nome = document.getElementById("nome").value;
+    const mensagem = document.getElementById("mensagem").value;
+
+    await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+            tipo: "mensagem",
+            nome,
+            mensagem
+        })
+    });
+
+    document.getElementById("mensagem").value = "";
+    carregarMensagens();
+});
+
+carregarMensagens();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Retroping™</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">💻 Retroping™</div>
+        <div class="menu">
+            <a href="sobre.html">Sobre</a>
+            <a href="postagens.html">Mensagem</a>
+            <a href="perfil.html">Perfil</a>
+            <a href="config.html">Config</a>
+        </div>
+    </div>
+
+    <div class="main-layout">
+
+        <!-- LOGIN -->
+        <div class="sidebar">
+            <h3>Entrar</h3>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginSenha" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+            </form>
+
+            <h3>Criar Conta</h3>
+            <form id="registerForm">
+                <input type="text" id="regNome" placeholder="Nome" required>
+                <input type="email" id="regEmail" placeholder="Email" required>
+                <input type="password" id="regSenha" placeholder="Senha" required>
+                <button type="submit">Criar Conta</button>
+            </form>
+        </div>
+
+        <div class="content">
+            <h2>Bem-vindo ao Retroping™</h2>
+            <p>Sem algoritmo infinito. Feed cronológico real.</p>
+            <p>Privacidade máxima. Simplicidade total.</p>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © Retropixel™, 2025-2026. Todos os direitos reservados.
+    </div>
+
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxdSSQw759d6grvHGATmEOupCeTRka6AUWWuF6mXpNmsJnQBTOri28skK8jvyXlqqJStg/exec";
+
+/* =========================
+   REGISTRO
+========================= */
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const nome = document.getElementById("regNome").value;
+    const email = document.getElementById("regEmail").value;
+    const senha = document.getElementById("regSenha").value;
+
+    const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            tipo: "registro",
+            nome: nome,
+            email: email,
+            senha: senha
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.status === "ok") {
+        alert("Conta criada com sucesso!");
+        document.getElementById("registerForm").reset();
+    } 
+    else if (data.status === "email_existe") {
+        alert("Este email já está cadastrado.");
+    } 
+    else {
+        alert("Erro ao criar conta.");
+    }
+});
+
+/* =========================
+   LOGIN
+========================= */
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const senha = document.getElementById("loginSenha").value;
+
+    const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            tipo: "login",
+            email: email,
+            senha: senha
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.status === "ok") {
+        localStorage.setItem("usuario", data.nome);
+        window.location.href = "postagens.html";
+    } else {
+        alert("Email ou senha incorretos.");
+    }
+});
+</script>
+
+</body>
+</html>
