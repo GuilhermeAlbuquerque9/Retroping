@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>💻 Retroping™</h1>
+<p><b>De volta ao passado com pings.</b></p>
+
+<div class="container">
+
+<div class="box">
+<h3>Entrar</h3>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginSenha" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+</div>
+
+<div class="box">
+<h3>Criar Conta</h3>
+<input type="email" id="cadEmail" placeholder="Email">
+<input type="password" id="cadSenha" placeholder="Senha">
+<button onclick="cadastrar()">Criar Conta</button>
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDI2yUt-qHe-VY3gHNOsl2jKyNtN45ulAk",
+  authDomain: "retroping-rp.firebaseapp.com",
+  projectId: "retroping-rp"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.cadastrar = async () => {
+  const email = cadEmail.value;
+  const senha = cadSenha.value;
+  const user = await createUserWithEmailAndPassword(auth,email,senha);
+
+  await setDoc(doc(db,"users",user.user.uid),{
+    nome: email.split("@")[0],
+    email: email,
+    descricao: "Retroping™",
+    amigos: [],
+    privado:false,
+    criadoEm:new Date()
+  });
+
+  alert("Conta criada!");
+};
+
+window.login = async () => {
+  await signInWithEmailAndPassword(auth,loginEmail.value,loginSenha.value);
+  window.location="postagens.html";
+};
+</script>
+
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+
+</body>
+</html>

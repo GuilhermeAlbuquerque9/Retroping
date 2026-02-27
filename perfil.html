@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Perfil - Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+<a href="postagens.html">📰 Feed</a>
+<a href="config.html">⚙️ Config</a>
+<a href="sair.html">🚪 Sair</a>
+</div>
+
+<div class="container">
+<h2>👤 Meu Perfil</h2>
+<div class="box" id="perfilBox"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDI2yUt-qHe-VY3gHNOsl2jKyNtN45ulAk",
+  authDomain: "retroping-rp.firebaseapp.com",
+  projectId: "retroping-rp"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    window.location = "index.html";
+    return;
+  }
+
+  const snap = await getDoc(doc(db, "users", user.uid));
+  const data = snap.data();
+
+  document.getElementById("perfilBox").innerHTML = `
+    <p><strong>Nome:</strong> ${data.nome}</p>
+    <p><strong>Email:</strong> ${data.email}</p>
+    <p><strong>Descrição:</strong> ${data.descricao}</p>
+    <p><strong>Privado:</strong> ${data.privado ? "Sim 🔒" : "Não 🌎"}</p>
+    <p><strong>Amigos:</strong> ${data.amigos.length}</p>
+  `;
+});
+</script>
+
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+
+</body>
+</html>
