@@ -1,34 +1,58 @@
 import { auth, db } from "./firebase.js";
-import { onAuthStateChanged, deleteUser } 
-from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { doc, updateDoc, getDoc, deleteDoc } 
-from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import {
+  doc,
+  getDoc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-let currentUser;
+import {
+  updateEmail,
+  updatePassword
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
-onAuthStateChanged(auth,user=>{
-  if(!user) location="index.html";
-  currentUser=user;
+
+auth.onAuthStateChanged(async user=>{
+  if(user){
+
+    novoEmail.value = user.email;
+
+    const snap = await getDoc(doc(db,"users",user.uid));
+    const data = snap.data();
+
+    if(data){
+      novoNome.value = data.nome || "";
+      novaDescricao.value = data.descricao || "";
+    }
+  }
 });
 
-window.salvar = async ()=>{
-  await updateDoc(doc(db,"users",currentUser.uid),{
-    nome:novoNome.value,
-    descricao:novaDescricao.value
-  });
-  alert("Atualizado!");
-};
 
-window.alternarPrivacidade = async ()=>{
-  const snap=await getDoc(doc(db,"users",currentUser.uid));
-  await updateDoc(doc(db,"users",currentUser.uid),{
-    privado:!snap.data().privado
-  });
-  alert("Privacidade alterada!");
-};
+window.salvarTudo = async () => {
 
-window.excluirConta = async ()=>{
-  await deleteDoc(doc(db,"users",currentUser.uid));
-  await deleteUser(currentUser);
-  location="index.html";
+  const user = auth.currentUser;
+
+  try{
+
+    // Atualiza Firestore
+    await updateDoc(doc(db,"users",user.uid),{
+      nome: novoNome.value,
+      descricao: novaDescricao.value
+    });
+
+    // Atualiza email se mudou
+    if(novoEmail.value !== user.email){
+      await updateEmail(user, novoEmail.value);
+    }
+
+    // Atualiza senha se digitada
+    if(novaSenha.value.trim() !== ""){
+      await updatePassword(user, novaSenha.value);
+    }
+
+    alert("Configurações atualizadas com sucesso!");
+
+  } catch(error){
+    alert("Pode ser necessário fazer login novamente para alterar email/senha.");
+  }
+
 };
