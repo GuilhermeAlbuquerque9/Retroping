@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>💻 Retroping™</h1>
+<p><b>De volta ao passado com pings.</b></p>
+
+<div class="container">
+
+<div class="box">
+<h3>Entrar</h3>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginSenha" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+</div>
+
+<div class="box">
+<h3>Criar Conta</h3>
+<input type="email" id="cadEmail" placeholder="Email">
+<input type="password" id="cadSenha" placeholder="Senha">
+<button onclick="cadastrar()">Criar Conta</button>
+</div>
+
+</div>
+
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+
+</body>
+</html>
