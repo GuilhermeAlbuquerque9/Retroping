@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Perfil - Retroping™</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Retroping™ - Perfil</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="topbar">
-<a href="postagens.html">📰 Feed</a>
-<a href="config.html">⚙️ Config</a>
-<a href="sair.html">🚪 Sair</a>
-</div>
-
 <div class="container">
-<h2>👤 Meu Perfil</h2>
-<div class="box" id="perfilBox"></div>
+  <h1>Meu Perfil</h1>
+
+  <nav>
+    <a href="postagens.html">Feed</a> |
+    <a href="config.html">Config</a> |
+    <a href="sair.html">Sair</a>
+  </nav>
+
+  <hr>
+
+  <div class="post">
+    <h2 id="perfilNome"></h2>
+    <p>Conta ativa no Retroping™</p>
+  </div>
 </div>
 
 <script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/perfil.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/profile.js"></script>
 
 </body>
 </html>
