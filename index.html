@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Retroping™</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Retroping™ - Entrar</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>💻 Retroping™</h1>
-<p><b>De volta ao passado com pings.</b></p>
-
 <div class="container">
+  <h1>Retroping™</h1>
 
-<div class="box">
-<h3>Entrar</h3>
-<input type="email" id="loginEmail" placeholder="Email">
-<input type="password" id="loginSenha" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-</div>
+  <h2>Entrar</h2>
+  <input type="email" id="loginEmail" placeholder="Email"><br><br>
+  <input type="password" id="loginSenha" placeholder="Senha"><br><br>
+  <button onclick="entrar()">Entrar</button>
 
-<div class="box">
-<h3>Criar Conta</h3>
-<input type="email" id="cadEmail" placeholder="Email">
-<input type="password" id="cadSenha" placeholder="Senha">
-<button onclick="cadastrar()">Criar Conta</button>
-</div>
+  <hr>
 
+  <h2>Criar Conta</h2>
+  <input type="email" id="cadEmail" placeholder="Email"><br><br>
+  <input type="password" id="cadSenha" placeholder="Senha"><br><br>
+  <button onclick="cadastrar()">Criar Conta</button>
 </div>
 
 <script type="module" src="js/firebase.js"></script>
