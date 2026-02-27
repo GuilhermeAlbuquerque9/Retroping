@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Feed</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Retroping™ - Postagens</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="topbar">
-<a href="perfil.html">👤 Perfil</a>
-<a href="config.html">⚙️ Config</a>
-<a href="sair.html">🚪 Sair</a>
-</div>
-
 <div class="container">
+  <h1>Retroping™</h1>
 
-<h2>📰 Feed</h2>
+  <nav>
+    <a href="perfil.html">Perfil</a> |
+    <a href="config.html">Config</a> |
+    <a href="sair.html">Sair</a>
+  </nav>
 
-<textarea id="texto"></textarea>
-<button onclick="postar()">Postar</button>
+  <hr>
 
-<div id="feed"></div>
+  <h2>Nova Postagem</h2>
+  <textarea id="mensagem" placeholder="O que você está pensando?" rows="4" style="width:100%;"></textarea><br><br>
+  <button onclick="criarPost()">Postar</button>
 
+  <hr>
+
+  <h2>Feed</h2>
+  <div id="listaPosts"></div>
 </div>
 
 <script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/feed.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/posts.js"></script>
 
 </body>
 </html>
