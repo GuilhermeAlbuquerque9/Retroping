@@ -1,38 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Configurações - Retroping™</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Retroping™ - Configurações</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div class="topbar">
-<a href="postagens.html">📰 Feed</a>
-<a href="perfil.html">👤 Perfil</a>
-<a href="sair.html">🚪 Sair</a>
-</div>
-
 <div class="container">
-<h2>⚙️ Configurações</h2>
+  <h1>Configurações</h1>
 
-<div class="box">
-<input type="text" id="novoNome" placeholder="Novo nome">
-<input type="text" id="novaDescricao" placeholder="Nova descrição">
-<button onclick="salvar()">Salvar Alterações</button>
-</div>
+  <nav>
+    <a href="postagens.html">Feed</a> |
+    <a href="perfil.html">Perfil</a> |
+    <a href="sair.html">Sair</a>
+  </nav>
 
-<div class="box">
-<button onclick="alternarPrivacidade()">Alternar Público/Privado</button>
-</div>
+  <hr>
 
-<div class="box">
-<button onclick="excluirConta()">Excluir Conta</button>
-</div>
-
+  <p>Configurações futuras virão aqui 😎</p>
 </div>
 
 <script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
 <script type="module" src="js/config.js"></script>
 
 </body>
