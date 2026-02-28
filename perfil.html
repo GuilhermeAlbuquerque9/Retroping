@@ -1,50 +1,56 @@
+NÃO!!!
+
+Primeiro: temos style.css.
+Segundo: não arruine, use isso de base:
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Perfil — Retroping™</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade - Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-<header>
-  Retroping™ — Perfil
-</header>
 
 <div class="container">
 
-  <!-- PERFIL -->
-  <h2 id="nomePerfil">Carregando...</h2>
-  <p id="bioPerfil"></p>
+  <h1>Comunidades</h1>
 
-  <!-- AMIGOS -->
-  <h3>👥 Amigos</h3>
-  <div class="box">
-    <ul id="listaAmigos"></ul>
-  </div>
+  <nav>
+    <a href="sobre.html">Sobre</a> |
+    <a href="postagens.html">Feed</a> |
+    <a href="perfil.html">Perfil</a> |
+    <a href="config.html">Configurações</a> |
+    <a href="sair.html">Sair</a> |  
+</nav>
 
-  <!-- CRIAR COMUNIDADE -->
-  <h3>🌐 Criar nova comunidade</h3>
-  <div class="box">
-    <input id="nomeComunidadeInput" placeholder="Nome da comunidade">
-    <input id="descricaoComunidadeInput" placeholder="Descrição">
-    <input id="temaComunidadeInput" placeholder="Tema">
-    <button onclick="criarComunidade()">Criar comunidade</button>
-  </div>
+  <hr>
 
-  <!-- COMUNIDADES -->
-  <h3>🌍 Comunidades</h3>
-  <div class="box" id="listaComunidades">
-    Carregando...
-  </div>
+  <h2 id="nomeComunidade"></h2>
+  <p id="descricaoComunidade"></p>
+
+  <hr>
+
+  <div id="infoComunidade"></div>
+
+  <button id="btnEntrar"></button>
+
+  <hr>
+
+  <h3>Comentários da comunidade</h3>
+
+  <textarea id="novoComentario" placeholder="Escreva um comentário"></textarea>
+  <br>
+  <button onclick="postarComentario()">Postar</button>
+
+  <div id="listaComentarios"></div>
 
 </div>
 
-<!-- SCRIPT -->
-<script type="module" src="js/perfil.js"></script>
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/comunidade.js"></script>
 
 </body>
 </html>
-
-
