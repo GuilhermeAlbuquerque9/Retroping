@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Retroping™ - Perfil</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil - Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="container">
-  <h1>Meu Perfil</h1>
+
+  <h1 id="perfilNome">Perfil</h1>
 
   <nav>
-    <a href="sobre.html">Sobre</a>
+    <a href="sobre.html">Sobre</a> |
     <a href="postagens.html">Feed</a> |
-    <a href="config.html">Config</a> |
-    <a href="sair.html">Sair</a>
+    <a href="config.html">Configurações</a> |
   </nav>
+
+  <h2>Descrição</h2>
+  <p id="perfilDescricao"></p>
+
+  <div id="areaAmizade">
+    <button id="btnAmizade" style="display:none;"></button>
+  </div>
+
+  <div id="areaPedidosRecebidos"></div>
 
   <hr>
 
-  <div class="post">
-    <h2 id="perfilNome"></h2>
-    <p>Conta ativa no Retroping™</p>
+  <h2>Amigos</h2>
+  <div id="listaAmigos"></div>
+
+  <hr>
+
+  <h2>Comunidades</h2>
+  <div id="listaComunidades"></div>
+
+  <div id="areaCriarComunidade">
+    <h3>Criar nova comunidade</h3>
+    <input type="text" id="nomeComunidade" placeholder="Nome">
+    <textarea id="descricaoComunidade" placeholder="Descrição"></textarea>
+    <br>
+    <button onclick="criarComunidade()">Criar</button>
   </div>
+
 </div>
 
 <script type="module" src="js/firebase.js"></script>
 <script type="module" src="js/auth.js"></script>
-<script type="module" src="js/profile.js"></script>
+<script type="module" src="js/perfil.js"></script>
 
 </body>
 </html>
-
