@@ -3,50 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunidade - Retroping™</title>
+<title>Perfil - Retroping™</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="container">
 
-  <h1>Comunidades</h1>
+  <h1 id="perfilNome">Perfil</h1>
 
   <nav>
     <a href="sobre.html">Sobre</a> |
     <a href="postagens.html">Feed</a> |
     <a href="perfil.html">Perfil</a> |
     <a href="config.html">Configurações</a> |
-    <a href="sair.html">Sair</a> |  
-</nav>
+    <a href="sair.html">Sair</a> |
+  </nav>
+
+  <h2>Descrição</h2>
+  <p id="perfilDescricao"></p>
+
+  <div id="areaAmizade">
+    <button id="btnAmizade" style="display:none;"></button>
+  </div>
+
+  <div id="areaPedidosRecebidos"></div>
 
   <hr>
 
-  <h2 id="nomeComunidade"></h2>
-  <p id="descricaoComunidade"></p>
+  <h2>Amigos</h2>
+  <div id="listaAmigos"></div>
 
   <hr>
 
-  <div id="infoComunidade"></div>
+  <h2>Comunidades</h2>
+  <div id="listaComunidades"></div>
 
-  <button id="btnEntrar"></button>
-
-  <hr>
-
-  <h3>Comentários da comunidade</h3>
-
-  <textarea id="novoComentario" placeholder="Escreva um comentário"></textarea>
-  <br>
-  <button onclick="postarComentario()">Postar</button>
-
-  <div id="listaComentarios"></div>
+  <div id="areaCriarComunidade">
+    <h3>Criar nova comunidade</h3>
+    <input type="text" id="nomeComunidade" placeholder="Nome">
+    <textarea id="descricaoComunidade" placeholder="Descrição"></textarea>
+    <br>
+    <button onclick="criarComunidade()">Criar</button>
+  </div>
 
 </div>
 
 <script type="module" src="js/firebase.js"></script>
 <script type="module" src="js/auth.js"></script>
-<script type="module" src="js/comunidade.js"></script>
+<script type="module" src="js/perfil.js"></script>
 
 </body>
 </html>
-
