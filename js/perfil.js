@@ -2,20 +2,23 @@ import { auth, db } from "./firebase.js";
 import {
   doc,
   getDoc,
+  getDocs,
   collection,
   addDoc,
-  getDocs,
+  deleteDoc,
   query,
   where,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 //////////////////////////////////////////////////
-// ELEMENTOS
+// ELEMENTOS DO HTML
 //////////////////////////////////////////////////
 
-const nomeEl = document.getElementById("nomePerfil");
-const bioEl = document.getElementById("bioPerfil");
+const nomeEl = document.getElementById("perfilNome");
+const bioEl = document.getElementById("perfilDescricao");
+const btnAmizade = document.getElementById("btnAmizade");
+const areaPedidosRecebidos = document.getElementById("areaPedidosRecebidos");
 const listaAmigos = document.getElementById("listaAmigos");
 const listaComunidades = document.getElementById("listaComunidades");
 
@@ -39,7 +42,7 @@ function getPerfilUid(){
 // AUTH
 //////////////////////////////////////////////////
 
-auth.onAuthStateChanged(async user => {
+auth.onAuthStateChanged(async (user) => {
 
   if(!user){
     window.location.href = "login.html";
@@ -61,40 +64,105 @@ auth.onAuthStateChanged(async user => {
 async function carregarPerfil(){
 
   const snap = await getDoc(doc(db,"users",perfilUid));
-
   if(!snap.exists()) return;
 
   const data = snap.data();
 
   nomeEl.textContent = data.nome || "Usuário";
-  bioEl.textContent = data.bio || "Sem bio";
+  bioEl.textContent = data.descricao || "Sem descrição";
+
+  // Não mostrar botão se for o próprio perfil
+  if(perfilUid === usuarioAtual.uid){
+    btnAmizade.style.display = "none";
+    return;
+  }
+
+  btnAmizade.style.display = "inline-block";
+
+  verificarAmizade();
 }
 
 //////////////////////////////////////////////////
-// AMIGOS
+// VERIFICAR AMIZADE
+//////////////////////////////////////////////////
+
+async function verificarAmizade(){
+
+  const q = query(
+    collection(db,"friends"),
+    where("users","array-contains",usuarioAtual.uid)
+  );
+
+  const snap = await getDocs(q);
+
+  let jaEhAmigo = false;
+  let docId = null;
+
+  snap.forEach(d => {
+    const data = d.data();
+    if(data.users.includes(perfilUid)){
+      jaEhAmigo = true;
+      docId = d.id;
+    }
+  });
+
+  if(jaEhAmigo){
+    btnAmizade.textContent = "Remover amigo";
+    btnAmizade.onclick = async () => {
+      await deleteDoc(doc(db,"friends",docId));
+      carregarAmigos();
+      verificarAmizade();
+    };
+  } else {
+    btnAmizade.textContent = "Adicionar amigo";
+    btnAmizade.onclick = async () => {
+      await addDoc(collection(db,"friends"),{
+        users:[usuarioAtual.uid, perfilUid],
+        createdAt: serverTimestamp()
+      });
+      carregarAmigos();
+      verificarAmizade();
+    };
+  }
+}
+
+//////////////////////////////////////////////////
+// CARREGAR AMIGOS
 //////////////////////////////////////////////////
 
 async function carregarAmigos(){
 
   listaAmigos.innerHTML = "";
 
-  const snap = await getDocs(
-    query(collection(db,"friends"),
-    where("users","array-contains",perfilUid))
+  const q = query(
+    collection(db,"friends"),
+    where("users","array-contains",perfilUid)
   );
 
-  for(const docSnap of snap.docs){
+  const snap = await getDocs(q);
 
-    const data = docSnap.data();
+  for(const d of snap.docs){
+
+    const data = d.data();
     const outroUid = data.users.find(u => u !== perfilUid);
 
     const userSnap = await getDoc(doc(db,"users",outroUid));
-    const nome = userSnap.data()?.nome || "Usuário";
+    if(!userSnap.exists()) continue;
 
-    const li = document.createElement("li");
-    li.textContent = nome;
+    const nome = userSnap.data().nome || "Usuário";
 
-    listaAmigos.appendChild(li);
+    const link = document.createElement("a");
+    link.href = "perfil.html?uid=" + outroUid;
+    link.textContent = nome;
+
+    const div = document.createElement("div");
+    div.appendChild(link);
+
+    listaAmigos.appendChild(div);
+  }
+
+  if(listaAmigos.innerHTML === ""){
+    listaAmigos.innerHTML = "Sem amigos ainda.";
   }
 }
 
@@ -104,16 +172,17 @@ async function carregarAmigos(){
 
 window.criarComunidade = async function(){
 
-  const nome = document.getElementById("nomeComunidadeInput").value.trim();
-  const descricao = document.getElementById("descricaoComunidadeInput").value.trim();
-  const tema = document.getElementById("temaComunidadeInput").value.trim();
+  const nome = document.getElementById("nomeComunidade").value.trim();
+  const descricao = document.getElementById("descricaoComunidade").value.trim();
 
-  if(!nome || !descricao) return alert("Preencha nome e descrição");
+  if(!nome || !descricao){
+    alert("Preencha todos os campos");
+    return;
+  }
 
   const docRef = await addDoc(collection(db,"communities"),{
     name: nome,
     description: descricao,
-    theme: tema || "Geral",
     owner: usuarioAtual.uid,
     createdAt: serverTimestamp()
   });
@@ -125,15 +194,14 @@ window.criarComunidade = async function(){
     role: "owner"
   });
 
-  document.getElementById("nomeComunidadeInput").value="";
-  document.getElementById("descricaoComunidadeInput").value="";
-  document.getElementById("temaComunidadeInput").value="";
+  document.getElementById("nomeComunidade").value = "";
+  document.getElementById("descricaoComunidade").value = "";
 
   carregarComunidades();
 };
 
 //////////////////////////////////////////////////
-// LISTAR COMUNIDADES COMO BOTÕES
+// LISTAR COMUNIDADES
 //////////////////////////////////////////////////
 
 async function carregarComunidades(){
@@ -142,9 +210,9 @@ async function carregarComunidades(){
 
   const snap = await getDocs(collection(db,"communityMembers"));
 
-  for(const docSnap of snap.docs){
+  for(const d of snap.docs){
 
-    const data = docSnap.data();
+    const data = d.data();
 
     if(data.userId === perfilUid){
 
@@ -155,7 +223,6 @@ async function carregarComunidades(){
 
       const btn = document.createElement("button");
       btn.textContent = comm.name;
-      btn.classList.add("botaoComunidade");
 
       btn.onclick = ()=>{
         window.location.href = "comunidade.html?id=" + data.communityId;
@@ -166,6 +233,6 @@ async function carregarComunidades(){
   }
 
   if(listaComunidades.innerHTML === ""){
-    listaComunidades.innerHTML = "<p>Sem comunidades ainda.</p>";
+    listaComunidades.innerHTML = "Sem comunidades ainda.";
   }
 }
