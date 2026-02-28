@@ -11,8 +11,10 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+
 //////////////////////////////////////////////////
-// ELEMENTOS DO HTML
+// ELEMENTOS
 //////////////////////////////////////////////////
 
 const nomeEl = document.getElementById("perfilNome");
@@ -28,10 +30,6 @@ const listaComunidades = document.getElementById("listaComunidades");
 
 let usuarioAtual;
 let perfilUid;
-
-//////////////////////////////////////////////////
-// PEGAR UID DA URL
-//////////////////////////////////////////////////
 
 function getPerfilUid(){
   const params = new URLSearchParams(window.location.search);
@@ -68,17 +66,15 @@ async function carregarPerfil(){
 
   const data = snap.data();
 
-  nomeEl.textContent = data.nome || "Usuário";
-  bioEl.textContent = data.descricao || "Sem descrição";
+  if(nomeEl) nomeEl.textContent = data.nome || "Usuário";
+  if(bioEl) bioEl.textContent = data.descricao || "Sem descrição";
 
-  // Não mostrar botão se for o próprio perfil
   if(perfilUid === usuarioAtual.uid){
     btnAmizade.style.display = "none";
     return;
   }
 
   btnAmizade.style.display = "inline-block";
-
   verificarAmizade();
 }
 
@@ -187,7 +183,6 @@ window.criarComunidade = async function(){
     createdAt: serverTimestamp()
   });
 
-  // Criador já entra como membro
   await addDoc(collection(db,"communityMembers"),{
     communityId: docRef.id,
     userId: usuarioAtual.uid,
@@ -236,3 +231,5 @@ async function carregarComunidades(){
     listaComunidades.innerHTML = "Sem comunidades ainda.";
   }
 }
+
+});
