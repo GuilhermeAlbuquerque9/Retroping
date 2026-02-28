@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comunidade - Retroping™</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Comunidades</h1>
+
+  <nav>
+    <a href="postagens.html">Feed</a>
+    <a href="perfil.html">Perfil</a>
+    <a href="sobre.html">Sobre</a>
+  </nav>
+
+  <hr>
+
+  <h2 id="nomeComunidade"></h2>
+  <p id="descricaoComunidade"></p>
+
+  <hr>
+
+  <div id="infoComunidade"></div>
+
+  <button id="btnEntrar"></button>
+
+  <hr>
+
+  <h3>Comentários da comunidade</h3>
+
+  <textarea id="novoComentario" placeholder="Escreva um comentário"></textarea>
+  <br>
+  <button onclick="postarComentario()">Postar</button>
+
+  <div id="listaComentarios"></div>
+
+</div>
+
+<script type="module" src="js/firebase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/comunidade.js"></script>
+
+</body>
+</html>
