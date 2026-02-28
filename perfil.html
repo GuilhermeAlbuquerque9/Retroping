@@ -1,59 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perfil - Retroping™</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Perfil — Retroping™</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f2f2f2;
+      margin:0;
+      padding:0;
+    }
+
+    header{
+      background:#6a0dad;
+      color:white;
+      padding:15px;
+      text-align:center;
+      font-size:20px;
+    }
+
+    .container{
+      max-width:900px;
+      margin:20px auto;
+      background:white;
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2,h3{
+      margin-top:25px;
+    }
+
+    .box{
+      border:1px solid #ddd;
+      padding:15px;
+      margin-top:10px;
+      border-radius:6px;
+      background:#fafafa;
+    }
+
+    input{
+      width:100%;
+      padding:8px;
+      margin-top:8px;
+      border-radius:4px;
+      border:1px solid #ccc;
+    }
+
+    button{
+      padding:8px 15px;
+      margin-top:10px;
+      border:none;
+      border-radius:4px;
+      cursor:pointer;
+      background:#6a0dad;
+      color:white;
+    }
+
+    button:hover{
+      opacity:0.9;
+    }
+
+    .botaoComunidade{
+      display:block;
+      width:100%;
+      text-align:left;
+      background:#e6e6ff;
+      color:#333;
+      margin-top:8px;
+    }
+
+    .botaoComunidade:hover{
+      background:#d0d0ff;
+    }
+
+    ul{
+      list-style:none;
+      padding:0;
+    }
+
+    ul li{
+      padding:6px 0;
+      border-bottom:1px solid #eee;
+      cursor:pointer;
+    }
+
+    ul li:hover{
+      text-decoration:underline;
+    }
+
+    @media (max-width: 768px){
+      .container{
+        margin:10px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
+<header>
+  Retroping™ — Perfil
+</header>
 
 <div class="container">
 
-  <h1 id="perfilNome">Perfil</h1>
+  <!-- PERFIL -->
+  <h2 id="nomePerfil">Carregando...</h2>
+  <p id="bioPerfil"></p>
 
-  <nav>
-    <a href="sobre.html">Sobre</a> |
-    <a href="postagens.html">Feed</a> |
-    <a href="perfil.html">Perfil</a> |
-    <a href="config.html">Configurações</a> |
-    <a href="sair.html">Sair</a> |
-  </nav>
-
-  <h2>Descrição</h2>
-  <p id="perfilDescricao"></p>
-
-  <div id="areaAmizade">
-    <button id="btnAmizade" style="display:none;"></button>
+  <!-- AMIGOS -->
+  <h3>👥 Amigos</h3>
+  <div class="box">
+    <ul id="listaAmigos"></ul>
   </div>
 
-  <div id="areaPedidosRecebidos"></div>
+  <!-- CRIAR COMUNIDADE -->
+  <h3>🌐 Criar nova comunidade</h3>
+  <div class="box">
+    <input id="nomeComunidadeInput" placeholder="Nome da comunidade">
+    <input id="descricaoComunidadeInput" placeholder="Descrição">
+    <input id="temaComunidadeInput" placeholder="Tema">
+    <button onclick="criarComunidade()">Criar comunidade</button>
+  </div>
 
-  <hr>
-
-  <h2>Amigos</h2>
-  <div id="listaAmigos"></div>
-
-  <hr>
-
-  <h2>Comunidades</h2>
-  <div id="listaComunidades"></div>
-
-  <div id="areaCriarComunidade">
-    <h3>Criar nova comunidade</h3>
-    <input type="text" id="nomeComunidade" placeholder="Nome">
-    <textarea id="descricaoComunidade" placeholder="Descrição"></textarea>
-    <br>
-    <button onclick="criarComunidade()">Criar</button>
+  <!-- COMUNIDADES -->
+  <h3>🌍 Comunidades</h3>
+  <div class="box" id="listaComunidades">
+    Carregando...
   </div>
 
 </div>
 
-<script type="module" src="js/firebase.js"></script>
-<script type="module" src="js/auth.js"></script>
+<!-- SCRIPT -->
 <script type="module" src="js/perfil.js"></script>
 
 </body>
 </html>
-
-
